@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';    
+import { motion, AnimatePresence } from 'framer-motion';
 import { CartContext } from '../CartContext/CartContext';
 
 const CartPage: React.FC = () => {
   const { cartItems, removeFromCart, clearCart } = React.useContext(CartContext);
+  const [orderCompleted, setOrderCompleted] = useState(false);
   const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   // Animation variants for cart items
@@ -24,10 +25,15 @@ const CartPage: React.FC = () => {
     visible: { opacity: 1, y: 0, transition: { delay: 0.3, duration: 0.3 } },
   };
 
-  // Animation variants for empty cart message
-  const emptyVariants = {
+  // Animation variants for empty cart and order completed messages
+  const messageVariants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+  };
+
+  const handleCheckout = () => {
+    clearCart();
+    setOrderCompleted(true);
   };
 
   return (
@@ -35,10 +41,27 @@ const CartPage: React.FC = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Your Cart</h2>
         <AnimatePresence>
-          {cartItems.length === 0 ? (
+          {orderCompleted ? (
+            <motion.div
+              key="order-completed"
+              variants={messageVariants}
+              initial="hidden"
+              animate="visible"
+              className="text-center"
+            >
+              <p className="text-2xl font-semibold text-green-600 mb-4">Order Completed!</p>
+              <p className="text-gray-600 mb-4">Thank you for your purchase.</p>
+              <Link
+                to="/products"
+                className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition"
+              >
+                Continue Shopping
+              </Link>
+            </motion.div>
+          ) : cartItems.length === 0 ? (
             <motion.div
               key="empty-cart"
-              variants={emptyVariants}
+              variants={messageVariants}
               initial="hidden"
               animate="visible"
               className="text-center"
@@ -105,6 +128,15 @@ const CartPage: React.FC = () => {
                     className="bg-gray-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-700 transition"
                   >
                     Clear Cart
+                  </motion.button>
+                  <motion.button
+                    onClick={handleCheckout}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    disabled={cartItems.length === 0}
+                    className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 disabled:bg-gray-400 transition"
+                  >
+                    Checkout
                   </motion.button>
                   <Link
                     to="/products"
