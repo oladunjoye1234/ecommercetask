@@ -179,16 +179,55 @@ const Header: React.FC = () => {
 };
 
 const Hero: React.FC = () => (
-  <section id="home" className="bg-gradient-to-r from-blue-400 to-purple-500 text-white py-20">
-    <div className="container mx-auto text-center">
-      <h2 className="text-4xl md:text-5xl font-bold mb-4">Discover Amazing Products</h2>
-      <p className="text-lg md:text-xl mb-6">Shop the latest trends at unbeatable prices!</p>
-      <Link
-        to="/products"
-        className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
+  <section
+    id="home"
+    className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-[length:200%_100%] animate-gradient py-24 overflow-hidden"
+  >
+    <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+      {/* Text Content */}
+      <div className="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-4"
+        >
+          Shop the Future Today
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-lg sm:text-xl text-gray-200 mb-6"
+        >
+          Explore cutting-edge products at unbeatable prices. Start your shopping adventure now!
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <Link
+            to="/products"
+            className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition shadow-lg hover:shadow-xl"
+          >
+            Shop Now
+          </Link>
+        </motion.div>
+      </div>
+      {/* Featured Product Image */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="md:w-1/2 flex justify-center"
       >
-        Shop Now
-      </Link>
+        <img
+          src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png"
+          alt="Featured Product"
+          className="w-full max-w-xs sm:max-w-sm md:max-w-md object-contain rounded-lg shadow-lg"
+        />
+      </motion.div>
     </div>
   </section>
 );
